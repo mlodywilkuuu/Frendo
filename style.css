@@ -64,7 +64,7 @@ form > label, .password-heading label { display: block; margin-bottom: 10px; col
 .signup-button span { color: #a99cff; font-size: 15px; }
 .terms { margin: 22px auto 0; max-width: 340px; color: #697489; text-align: center; font-size: 10px; line-height: 1.8; }
 .terms a { font-size: inherit; }
-.login-footer { display: flex; justify-content: space-between; color: #758095; font-size: 10px; }
+.login-footer { display: flex; justify-content: space-between; gap: 16px; margin-top: 28px; padding-top: 18px; border-top: 1px solid #293244; color: #758095; font-size: 10px; }
 .login-footer a { color: #a99cff; }
 .login-footer > span:last-child { color: #aeb7c8; }
 .mobile-brand, .mobile-break { display: none; }
@@ -79,7 +79,7 @@ form > label, .password-heading label { display: block; margin-bottom: 10px; col
   .mobile-break { display: block; }
   h2 { font-size: 43px; }
   .welcome p { margin-bottom: 31px; }
-  .login-footer { max-width: 430px; width: 100%; margin: 42px auto 0; }
+  .login-footer { max-width: 430px; width: 100%; margin: 34px auto 0; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
 
