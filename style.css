@@ -82,3 +82,17 @@ form > label, .password-heading label { display: block; margin-bottom: 10px; col
   .login-footer { max-width: 430px; width: 100%; margin: 42px auto 0; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+
+/* Widoki rejestracji i odzyskiwania konta */
+.auth-view[hidden] { display: none !important; }
+.field-label { display:block; margin-top:19px; margin-bottom:10px; color:#dce1eb; font-size:12px; font-weight:600; }
+.spaced-button { margin-top:24px; }
+.code-input { letter-spacing: .35em; font-size:19px !important; font-weight:800; text-align:center; }
+.text-back { display:block; margin:18px auto 0; padding:8px; border:0; background:transparent; color:#a99cff; font:600 12px "DM Sans",sans-serif; cursor:pointer; }
+.text-back:hover { color:#c3bbff; }
+.signup-button { width:100%; background:transparent; cursor:pointer; font-family:inherit; }
+.form-message:empty { min-height:0; }
+.form-message.success { color:#6fe0c2; }
+.form-message.error { color:#ffb7a9; }
+.submit-button:disabled { opacity:.65; cursor:wait; transform:none; }
+@media (max-width:680px) { .auth-view .welcome p { line-height:1.65; } }
