@@ -113,7 +113,7 @@ $("#verify-form").addEventListener("submit", async (event) => {
   const email = $("#verify-email").value.trim().toLowerCase();
   const token = $("#verify-code").value.trim();
 
-  if (!email || !/^\\d{6}$/.test(token)) {
+  if (!email || !/^\d{6}$/.test(token)) {
     return setMessage("#verify-message", "Wpisz adres e-mail i dokładnie 6 cyfr z wiadomości.");
   }
 
