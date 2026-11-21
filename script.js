@@ -5,8 +5,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Js7O1T5y5Tn3_WEU_vskOA_3bgFRENZ
 const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
 const $ = (selector) => document.querySelector(selector);
-let pendingEmail = "";
-let recoveryEmail = "";
+const redirectUrl = window.location.origin + window.location.pathname;
 
 function showView(name) {
   document.querySelectorAll(".auth-view").forEach((view) => {
@@ -32,7 +31,7 @@ function setBusy(form, busy) {
 function friendlyError(error) {
   const msg = error?.message || "Wystąpił nieoczekiwany błąd. Spróbuj ponownie.";
   if (/invalid login credentials/i.test(msg)) return "Nieprawidłowy e-mail lub hasło.";
-  if (/email not confirmed/i.test(msg)) return "Potwierdź najpierw adres e-mail kodem z wiadomości.";
+  if (/email not confirmed/i.test(msg)) return "Potwierdź adres e-mail, klikając link w wiadomości.";
   if (/password should be at least/i.test(msg)) return "Hasło jest za krótkie.";
   if (/user already registered/i.test(msg)) return "Konto z tym adresem e-mail już istnieje. Zaloguj się lub zresetuj hasło.";
   if (/rate limit/i.test(msg)) return "Wysłano zbyt wiele wiadomości. Odczekaj chwilę i spróbuj ponownie.";
@@ -78,73 +77,49 @@ $("#signup-form").addEventListener("submit", async (event) => {
   const email = $("#signup-email").value.trim();
   const password = $("#signup-password").value;
   if (!username || !email || password.length < 8) return setMessage("#signup-message", "Uzupełnij nazwę, poprawny e-mail i hasło (min. 8 znaków).");
-  pendingEmail = email;
   setBusy(form, true);
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { username } }
+    options: { data: { username }, emailRedirectTo: redirectUrl }
   });
   setBusy(form, false);
   if (error) return setMessage("#signup-message", friendlyError(error));
-  if (data.session) {
-    showView("login");
-    return setMessage("#login-message", "Konto utworzone. Możesz się zalogować.", "success");
-  }
-  showView("verify");
-  setMessage("#verify-message", "Kod potwierdzający został wysłany na " + email + ".", "success");
-});
-
-$("#verify-form").addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const form = event.currentTarget;
-  const token = $("#verify-code").value.trim();
-  if (!pendingEmail || !/^\d{6}$/.test(token)) return setMessage("#verify-message", "Wpisz 6-cyfrowy kod z wiadomości.");
-  setBusy(form, true);
-  const { error } = await supabase.auth.verifyOtp({ email: pendingEmail, token, type: "signup" });
-  setBusy(form, false);
-  if (error) return setMessage("#verify-message", friendlyError(error));
   showView("login");
-  $("#login-email").value = pendingEmail;
-  setMessage("#login-message", "Adres e-mail potwierdzony! Możesz się zalogować.", "success");
-});
-$("#resend-signup").addEventListener("click", async () => {
-  if (!pendingEmail) return setMessage("#verify-message", "Wróć do rejestracji i wpisz swój adres e-mail.");
-  const { error } = await supabase.auth.resend({ type: "signup", email: pendingEmail });
-  if (error) return setMessage("#verify-message", friendlyError(error));
-  setMessage("#verify-message", "Wysłaliśmy nowy kod na " + pendingEmail + ".", "success");
+  setMessage("#login-message", "Konto utworzone! Otwórz wiadomość e-mail i kliknij link potwierdzający. Następnie wróć tutaj i się zaloguj.", "success");
 });
 
 $("#recovery-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   const form = event.currentTarget;
-  recoveryEmail = $("#recovery-email").value.trim();
-  if (!recoveryEmail) return setMessage("#recovery-message", "Wpisz adres e-mail.");
+  const email = $("#recovery-email").value.trim();
+  if (!email) return setMessage("#recovery-message", "Wpisz adres e-mail.");
   setBusy(form, true);
-  const { error } = await supabase.auth.resetPasswordForEmail(recoveryEmail);
+  const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: redirectUrl });
   setBusy(form, false);
   if (error) return setMessage("#recovery-message", friendlyError(error));
-  showView("reset");
-  setMessage("#reset-message", "Jeśli konto istnieje, wysłaliśmy kod resetujący na " + recoveryEmail + ".", "success");
+  setMessage("#recovery-message", "Jeśli konto istnieje, wysłaliśmy wiadomość na " + email + ". Kliknij link w wiadomości, aby ustawić nowe hasło.", "success");
+});
+
+supabase.auth.onAuthStateChange((event) => {
+  if (event === "PASSWORD_RECOVERY") {
+    showView("reset");
+    setMessage("#reset-message", "Link jest poprawny. Wpisz nowe hasło.", "success");
+  } else if (event === "SIGNED_IN") {
+    showView("login");
+    setMessage("#login-message", "Zalogowano poprawnie. Możesz korzystać z Frendo.", "success");
+  }
 });
 
 $("#reset-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   const form = event.currentTarget;
-  const token = $("#reset-code").value.trim();
   const password = $("#new-password").value;
-  if (!recoveryEmail || !/^\d{6}$/.test(token)) return setMessage("#reset-message", "Wpisz 6-cyfrowy kod z wiadomości.");
   if (password.length < 8) return setMessage("#reset-message", "Nowe hasło musi mieć co najmniej 8 znaków.");
   setBusy(form, true);
-  const { error: verifyError } = await supabase.auth.verifyOtp({ email: recoveryEmail, token, type: "recovery" });
-  if (verifyError) {
-    setBusy(form, false);
-    return setMessage("#reset-message", friendlyError(verifyError));
-  }
-  const { error: updateError } = await supabase.auth.updateUser({ password });
+  const { error } = await supabase.auth.updateUser({ password });
   setBusy(form, false);
-  if (updateError) return setMessage("#reset-message", friendlyError(updateError));
+  if (error) return setMessage("#reset-message", friendlyError(error));
   showView("login");
-  $("#login-email").value = recoveryEmail;
   setMessage("#login-message", "Hasło zostało zmienione. Zaloguj się nowym hasłem.", "success");
 });
