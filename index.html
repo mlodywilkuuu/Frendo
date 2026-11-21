@@ -52,7 +52,7 @@
         </section>
 
         <section class="auth-view" id="signup-view" hidden>
-          <div class="welcome"><span class="welcome-tag">DOŁĄCZ DO NAS</span><h2>Utwórz<br class="mobile-break"> konto<span>.</span></h2><p>Podaj e-mail i ustaw hasło. Wyślemy Ci kod potwierdzający.</p></div>
+          <div class="welcome"><span class="welcome-tag">DOŁĄCZ DO NAS</span><h2>Utwórz<br class="mobile-break"> konto<span>.</span></h2><p>Podaj e-mail i ustaw hasło. Wyślemy Ci link potwierdzający.</p></div>
           <form id="signup-form" novalidate>
             <label for="signup-name">Nazwa użytkownika</label>
             <div class="input-wrap"><span class="input-icon">✦</span><input id="signup-name" type="text" autocomplete="nickname" placeholder="np. alex" maxlength="24" required></div>
@@ -60,7 +60,7 @@
             <div class="input-wrap"><span class="input-icon">✉</span><input id="signup-email" type="email" autocomplete="email" placeholder="np. alex@email.com" required></div>
             <label for="signup-password" class="field-label">Hasło (minimum 8 znaków)</label>
             <div class="input-wrap"><span class="input-icon lock-icon">⌑</span><input id="signup-password" type="password" autocomplete="new-password" placeholder="Utwórz hasło" minlength="8" required><button class="toggle-password" type="button" data-toggle="signup-password">Pokaż</button></div>
-            <button class="submit-button spaced-button" type="submit"><span>Wyślij kod e-mail</span><span>→</span></button>
+            <button class="submit-button spaced-button" type="submit"><span>Utwórz konto</span><span>→</span></button>
             <p class="form-message" id="signup-message" role="status" aria-live="polite"></p>
           </form>
           <button class="text-back" type="button" data-view="login">← Wróć do logowania</button>
@@ -78,21 +78,19 @@
         </section>
 
         <section class="auth-view" id="recovery-view" hidden>
-          <div class="welcome"><span class="welcome-tag">ODZYSKIWANIE DOSTĘPU</span><h2>Nowe<br class="mobile-break"> hasło<span>.</span></h2><p>Podaj e-mail, a wyślemy Ci kod do zresetowania hasła.</p></div>
+          <div class="welcome"><span class="welcome-tag">ODZYSKIWANIE DOSTĘPU</span><h2>Nowe<br class="mobile-break"> hasło<span>.</span></h2><p>Podaj e-mail, a wyślemy Ci link do ustawienia nowego hasła.</p></div>
           <form id="recovery-form" novalidate>
             <label for="recovery-email">Adres e-mail</label>
             <div class="input-wrap"><span class="input-icon">✉</span><input id="recovery-email" type="email" autocomplete="email" placeholder="np. alex@email.com" required></div>
-            <button class="submit-button spaced-button" type="submit"><span>Wyślij kod resetujący</span><span>→</span></button>
+            <button class="submit-button spaced-button" type="submit"><span>Wyślij link resetujący</span><span>→</span></button>
             <p class="form-message" id="recovery-message" role="status" aria-live="polite"></p>
           </form>
           <button class="text-back" type="button" data-view="login">← Wróć do logowania</button>
         </section>
 
         <section class="auth-view" id="reset-view" hidden>
-          <div class="welcome"><span class="welcome-tag">BEZPIECZNE KONTO</span><h2>Ustaw hasło<span>.</span></h2><p>Wpisz kod z e-maila i ustaw nowe hasło.</p></div>
+          <div class="welcome"><span class="welcome-tag">BEZPIECZNE KONTO</span><h2>Ustaw hasło<span>.</span></h2><p>Otworzyłeś link z wiadomości. Teraz ustaw nowe hasło.</p></div>
           <form id="reset-form" novalidate>
-            <label for="reset-code">6-cyfrowy kod</label>
-            <div class="input-wrap"><span class="input-icon">#</span><input id="reset-code" class="code-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" required></div>
             <label for="new-password" class="field-label">Nowe hasło (minimum 8 znaków)</label>
             <div class="input-wrap"><span class="input-icon lock-icon">⌑</span><input id="new-password" type="password" autocomplete="new-password" minlength="8" placeholder="Wpisz nowe hasło" required><button class="toggle-password" type="button" data-toggle="new-password">Pokaż</button></div>
             <button class="submit-button spaced-button" type="submit"><span>Zapisz nowe hasło</span><span>→</span></button>
