@@ -52,7 +52,7 @@
         </section>
 
         <section class="auth-view" id="signup-view" hidden>
-          <div class="welcome"><span class="welcome-tag">DOŁĄCZ DO NAS</span><h2>Utwórz<br class="mobile-break"> konto<span>.</span></h2><p>Podaj swoje dane. Wyślemy Ci 6-cyfrowy kod na e-mail.</p></div>
+          <div class="welcome"><span class="welcome-tag">DOŁĄCZ DO NAS</span><h2>Utwórz<br class="mobile-break"> konto<span>.</span></h2><p>Podaj swoje dane i od razu dołącz do Frendo.</p></div>
           <form id="signup-form" novalidate>
             <label for="signup-first-name">Imię</label>
             <div class="input-wrap"><span class="input-icon">✦</span><input id="signup-first-name" type="text" autocomplete="given-name" placeholder="Twoje imię" maxlength="40" required></div>
@@ -66,19 +66,6 @@
             <p class="form-message" id="signup-message" role="status" aria-live="polite"></p>
           </form>
           <button class="text-back" type="button" data-view="login">← Wróć do logowania</button>
-        </section>
-
-        <section class="auth-view" id="verify-view" hidden>
-          <div class="welcome"><span class="welcome-tag">JESZCZE JEDEN KROK</span><h2>Sprawdź<br class="mobile-break"> pocztę<span>.</span></h2><p>Wpisz 6-cyfrowy kod, który wysłaliśmy na Twój adres e-mail.</p></div>
-          <form id="verify-form" novalidate>
-            <label for="verify-email">Adres e-mail</label>
-            <div class="input-wrap"><span class="input-icon">✉</span><input id="verify-email" type="email" autocomplete="email" placeholder="Twój adres e-mail" required></div>
-            <label for="verify-code" class="field-label">6-cyfrowy kod z wiadomości</label>
-            <div class="input-wrap"><span class="input-icon">#</span><input id="verify-code" class="code-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="000000" required></div>
-            <button class="submit-button spaced-button" type="submit"><span>Potwierdź konto</span><span>→</span></button>
-            <p class="form-message" id="verify-message" role="status" aria-live="polite"></p>
-          </form>
-          <button class="text-back" type="button" id="resend-signup">Wyślij kod ponownie</button>
         </section>
 
         <section class="auth-view" id="recovery-view" hidden>
