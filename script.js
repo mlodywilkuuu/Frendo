@@ -73,20 +73,88 @@ $("#login-form").addEventListener("submit", async (event) => {
 $("#signup-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   const form = event.currentTarget;
-  const username = $("#signup-name").value.trim();
-  const email = $("#signup-email").value.trim();
+  const firstName = $("#signup-first-name").value.trim();
+  const lastName = $("#signup-last-name").value.trim();
+  const email = $("#signup-email").value.trim().toLowerCase();
   const password = $("#signup-password").value;
-  if (!username || !email || password.length < 8) return setMessage("#signup-message", "Uzupełnij nazwę, poprawny e-mail i hasło (min. 8 znaków).");
+
+  if (!firstName || !lastName || !email || password.length < 8) {
+    return setMessage("#signup-message", "Uzupełnij imię, nazwisko, poprawny e-mail i hasło (min. 8 znaków).");
+  }
+
   setBusy(form, true);
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { username }, emailRedirectTo: redirectUrl }
+    options: {
+      data: { first_name: firstName, last_name: lastName }
+    }
   });
   setBusy(form, false);
+
   if (error) return setMessage("#signup-message", friendlyError(error));
+
+  // Przy włączonym potwierdzaniu e-maila Supabase wysyła kod OTP.
+  if (data.session) {
+    showView("login");
+    setMessage("#login-message", "Konto zostało utworzone. Możesz się zalogować.", "success");
+    return;
+  }
+
+  $("#verify-email").value = email;
+  $("#verify-code").value = "";
+  showView("verify");
+  setMessage("#verify-message", "Wysłaliśmy 6-cyfrowy kod na " + email + ".", "success");
+});
+
+$("#verify-form").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const email = $("#verify-email").value.trim().toLowerCase();
+  const token = $("#verify-code").value.trim();
+
+  if (!email || !/^\\d{6}$/.test(token)) {
+    return setMessage("#verify-message", "Wpisz adres e-mail i dokładnie 6 cyfr z wiadomości.");
+  }
+
+  setBusy(form, true);
+  const { data, error } = await supabase.auth.verifyOtp({
+    email,
+    token,
+    type: "signup"
+  });
+  setBusy(form, false);
+
+  if (error) return setMessage("#verify-message", friendlyError(error));
+
+  if (data.session) {
+    await supabase.auth.signOut();
+  }
+
+  $("#login-email").value = email;
+  $("#login-password").value = "";
   showView("login");
-  setMessage("#login-message", "Konto utworzone! Otwórz wiadomość e-mail i kliknij link potwierdzający. Następnie wróć tutaj i się zaloguj.", "success");
+  setMessage("#login-message", "Adres e-mail potwierdzony! Możesz teraz zalogować się na swoje konto.", "success");
+});
+
+$("#resend-signup").addEventListener("click", async () => {
+  const email = $("#verify-email").value.trim().toLowerCase();
+  if (!email) return setMessage("#verify-message", "Najpierw wpisz adres e-mail.");
+
+  const button = $("#resend-signup");
+  button.disabled = true;
+  button.textContent = "Wysyłanie…";
+
+  const { error } = await supabase.auth.resend({
+    type: "signup",
+    email
+  });
+
+  button.disabled = false;
+  button.textContent = "Wyślij kod ponownie";
+
+  if (error) return setMessage("#verify-message", friendlyError(error));
+  setMessage("#verify-message", "Wysłaliśmy nowy kod na " + email + ".", "success");
 });
 
 $("#recovery-form").addEventListener("submit", async (event) => {
