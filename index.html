@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101522">
+  <meta name="description" content="Frendo — rozmawiaj, udostępniaj i bądź blisko.">
+  <title>Logowanie — Frendo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="intro" aria-label="Frendo">
+      <a class="brand" href="#" aria-label="Frendo — strona główna">
+        <span class="brand-mark">f<span>.</span></span>
+        <span>frendo</span>
+      </a>
+      <div class="intro-copy">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> TWOJA PRZESTRZEŃ. TWOI LUDZIE.</span>
+        <h1>Bliskość nie zna<br><span>odległości.</span></h1>
+        <p>Wszystkie ważne rozmowy w jednym miejscu. Dołącz do Frendo i bądź bliżej ludzi, którzy się liczą.</p>
+      </div>
+      <div class="orbit-art" aria-hidden="true">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="orbit-core">f<span>.</span></div>
+        <span class="orbit-node node-one">✦</span><span class="orbit-node node-two">♡</span><span class="orbit-node node-three">✳</span>
+      </div>
+      <div class="intro-footer"><span>© 2026 Frendo</span><span>Łączy nas więcej.</span></div>
+    </section>
+
+    <section class="login-side">
+      <div class="mobile-brand"><span class="brand-mark">f<span>.</span></span><span>frendo</span></div>
+      <div class="login-card">
+        <div class="welcome">
+          <span class="welcome-tag">WITAJ PONOWNIE</span>
+          <h2>Dobrze Cię<br class="mobile-break"> widzieć<span>.</span></h2>
+          <p>Zaloguj się, aby wrócić do swoich rozmów.</p>
+        </div>
+        <form id="login-form" novalidate>
+          <label for="email">Adres e-mail lub nazwa użytkownika</label>
+          <div class="input-wrap">
+            <span class="input-icon" aria-hidden="true">✉</span>
+            <input id="email" name="email" type="text" autocomplete="username" placeholder="np. alex@email.com" required>
+          </div>
+          <div class="password-heading"><label for="password">Hasło</label><a href="#" id="forgot-link">Nie pamiętasz hasła?</a></div>
+          <div class="input-wrap">
+            <span class="input-icon lock-icon" aria-hidden="true">⌑</span>
+            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Wpisz swoje hasło" required>
+            <button class="toggle-password" type="button" id="toggle-password" aria-label="Pokaż hasło">Pokaż</button>
+          </div>
+          <label class="remember"><input type="checkbox" name="remember" checked><span class="checkmark"></span><span>Nie wylogowuj mnie</span></label>
+          <button class="submit-button" type="submit"><span>Zaloguj się</span><span aria-hidden="true">→</span></button>
+          <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+        </form>
+        <div class="separator"><span></span><small>NOWY NA FRENDO?</small><span></span></div>
+        <a class="signup-button" href="#" id="signup-link">Utwórz konto <span aria-hidden="true">↗</span></a>
+        <p class="terms">Logując się, akceptujesz nasze <a href="#">Warunki korzystania</a> i <a href="#">Politykę prywatności</a>.</p>
+      </div>
+      <footer class="login-footer"><span>Potrzebujesz pomocy? <a href="mailto:help@frendo.app">Napisz do nas</a></span><span>PL <span aria-hidden="true">⌄</span></span></footer>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
