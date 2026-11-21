@@ -31,7 +31,7 @@ function setBusy(form, busy) {
 function friendlyError(error) {
   const msg = error?.message || "Wystąpił nieoczekiwany błąd. Spróbuj ponownie.";
   if (/invalid login credentials/i.test(msg)) return "Nieprawidłowy e-mail lub hasło.";
-  if (/email not confirmed/i.test(msg)) return "Potwierdź adres e-mail, klikając link w wiadomości.";
+  if (/email not confirmed/i.test(msg)) return "Potwierdź adres e-mail, wpisując 6-cyfrowy kod z wiadomości.";
   if (/password should be at least/i.test(msg)) return "Hasło jest za krótkie.";
   if (/user already registered/i.test(msg)) return "Konto z tym adresem e-mail już istnieje. Zaloguj się lub zresetuj hasło.";
   if (/rate limit/i.test(msg)) return "Wysłano zbyt wiele wiadomości. Odczekaj chwilę i spróbuj ponownie.";
