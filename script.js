@@ -65,7 +65,6 @@ $("#login-form").addEventListener("submit", async (event) => {
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
   setBusy(form, false);
   if (error) return setMessage("#login-message", friendlyError(error));
-  setMessage("#login-message", "Zalogowano poprawnie. System kont Frendo jest połączony.", "success");
   console.info("Frendo user session active:", data.user?.id);
 });
 
@@ -122,7 +121,6 @@ supabase.auth.onAuthStateChange((event) => {
     setMessage("#reset-message", "Link jest poprawny. Wpisz nowe hasło.", "success");
   } else if (event === "SIGNED_IN") {
     showView("login");
-    setMessage("#login-message", "Zalogowano poprawnie. Możesz korzystać z Frendo.", "success");
   }
 });
 
