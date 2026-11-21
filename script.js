@@ -97,6 +97,7 @@ $("#signup-form").addEventListener("submit", async (event) => {
     return setMessage("#signup-message", "Konto zostało utworzone, ale Supabase nadal wymaga potwierdzenia e-maila. Wyłącz opcję Confirm email w ustawieniach Auth projektu.");
   }
 
+  await supabase.auth.signOut();
   showView("login");
   $("#login-email").value = email;
   $("#login-password").value = "";
