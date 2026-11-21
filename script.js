@@ -100,7 +100,6 @@ $("#signup-form").addEventListener("submit", async (event) => {
   showView("login");
   $("#login-email").value = email;
   $("#login-password").value = "";
-  setMessage("#login-message", "Konto zostało utworzone. Możesz się zalogować.", "success");
 });
 
 $("#recovery-form").addEventListener("submit", async (event) => {
@@ -112,13 +111,11 @@ $("#recovery-form").addEventListener("submit", async (event) => {
   const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: redirectUrl });
   setBusy(form, false);
   if (error) return setMessage("#recovery-message", friendlyError(error));
-  setMessage("#recovery-message", "Jeśli konto istnieje, wysłaliśmy wiadomość na " + email + ". Kliknij link w wiadomości, aby ustawić nowe hasło.", "success");
 });
 
 supabase.auth.onAuthStateChange((event) => {
   if (event === "PASSWORD_RECOVERY") {
     showView("reset");
-    setMessage("#reset-message", "Link jest poprawny. Wpisz nowe hasło.", "success");
   } else if (event === "SIGNED_IN") {
     showView("login");
   }
@@ -134,5 +131,4 @@ $("#reset-form").addEventListener("submit", async (event) => {
   setBusy(form, false);
   if (error) return setMessage("#reset-message", friendlyError(error));
   showView("login");
-  setMessage("#login-message", "Hasło zostało zmienione. Zaloguj się nowym hasłem.", "success");
 });
